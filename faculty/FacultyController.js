@@ -8,6 +8,31 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
 // save a faculty to database
+router.get("/", function(req, res) {
+  pool.getConnection((err, connection) => {
+    if (err) {
+      res.json({ code: 100, status: 'Error in connection database' });
+    }
+    connection.query('select * from faculty;', (err, rows) => {
+      connection.release();
+      if (err) {
+        res.json({ code: 100, status: 'Query failed in DB' });
+      } else {
+        res.json({
+          faculties: [
+            {
+              
+              self: `http://localhost:8090/api/faculties/${res.faculty_id}`,
+              id: `${res.faculty_id}`,
+              name: `${res.name}`
+            }
+          ]
+        });
+      }
+    });
+  });
+});
+
 router.post("/", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) {
