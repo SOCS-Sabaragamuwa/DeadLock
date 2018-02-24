@@ -154,26 +154,28 @@ router.get("/:id", function(req, res) {
             res.status(404).json({ status: 404, message: "User not Found " });
           } else {
             console.log(result);
-            res.status(201).json({
+            res.status(200).json({
               self: `http://localhost:8090/api/users/${result.user_id}`,
               email: result.email,
-              role: { role },
+              role: result.role,
               first_name: result.first_name,
               last_name: result.last_name,
               batch: result.batch,
               faculty: {
-                self: `http://localhost:8090/api/faculties/${result.faculty_id}`
-                //  name: result
+                self: `http://localhost:8090/api/faculties/${
+                  result.faculty_id
+                }`,
+                name: result.faculty_name
               },
               department: {
                 self: `http://localhost:8090/api/departments/${
                   result.department_id
-                }`
-                //name: { department_name }
+                }`,
+                name: result.department_name
               },
               degree: {
-                self: `http://localhost:8090/api/degrees/${result.degree_id}`
-                //  name: { degree_name }
+                self: `http://localhost:8090/api/degrees/${result.degree_id}`,
+                name: result.degree_name
               }
             });
           }
