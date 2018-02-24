@@ -6,6 +6,9 @@
   "repository": "git@github.com:SOCSSabaragamuwa/DeadLock.git",
   "author": "123azeela@gmail.com",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
   "dependencies": {
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
