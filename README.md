@@ -1,6 +1,8 @@
 # Team Deadlock
 
-Let Me hack API
+Let Me hack API powered by Docker
+
+[![Build Status](https://travis-ci.com/SOCSSabaragamuwa/DeadLock.svg?token=wKPCZfbmxSvh4CRNvgxz&branch=master)](https://travis-ci.com/SOCSSabaragamuwa/DeadLock)
 
 ## Getting Started
 
