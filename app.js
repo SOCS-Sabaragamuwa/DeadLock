@@ -1,6 +1,9 @@
 var express = require("express");
-var app = express();
 var db = require("./db");
+var cors = require("cors");
+
+var app = express();
+app.use(cors());
 
 var TestController = require("./test/TestController");
 app.use("/api/", TestController);

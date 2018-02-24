@@ -34,7 +34,6 @@ router.post("/", (req, res) => {
       ) {
         response = true;
       }
-      // passwordValidator(password, res);
       if (!response) {
         return res.status(400).json({
           status: 400,
