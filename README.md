@@ -1,15 +1,45 @@
-# LetMeHack
+# Team Deadlock
 
-Request/Response Format
-All requests and responses must be in JSON, with the Content-Type header set to application/json.
+Let Me hack API
 
-Error Handling
+## Getting Started
 
-For API to be consistent, always return error responses in json. JSON schema of the errors returned should be like the following:
+These instructions will get you a copy of the project up and running on your
+local machine for development and testing purposes. See deployment for notes on
+how to deploy the project on a live system.
+
+### Prerequisites
+
+What things you need to install the software and how to install them
+
 ```
-{
-"status": 401,
-"message": "Invalid username or password.",
-"developerMessage": "Login attempt failed because the specified password is incorrect."
-}
+Node.js | yarn | git
+```
+
+### Installing
+
+A step by step series of examples that tell you have to get a development env
+running
+
+Say what the step will be
+
+```
+git clone git@github.com:SOCSSabaragamuwa/DeadLock.git
+```
+
+go to the project folder
+
+```
+yarn install
+```
+
+End with an example of getting some data out of the system or using it for a
+little demo
+
+## Deployment
+
+Add additional notes about how to deploy this on a live system
+
+```
+yarn start
 ```

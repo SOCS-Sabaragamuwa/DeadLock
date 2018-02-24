@@ -1,0 +1,14 @@
+{
+  "name": "DeadLock",
+  "version": "1.0.0",
+  "description": "University of Sri Jayawardhanapera",
+  "main": "server.js",
+  "repository": "git@github.com:SOCSSabaragamuwa/DeadLock.git",
+  "author": "123azeela@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mysql": "^2.15.0",
+    "nodemon": "^1.15.1"
+  }
+}
