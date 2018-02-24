@@ -62,7 +62,7 @@ router.get("/:department_id", function(req, res) {
 router.post("/", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) {
-      res.json({ code: 100, status: "Error in connection database" });
+      res.status(100).json({ code: 100, status: "Error in connection database" });
     }
 
     let name = req.body.name;
@@ -70,33 +70,45 @@ router.post("/", (req, res) => {
 
     connection.query(
         `SELECT * FROM degree WHERE name='${name}'`,
-
         (err, result) => {
           if (err) {
             res.status(100).json({ message: "Error in mysql query" });
           } else {
-            if (result.length > 0 && result !== null) {
-
+            
+            if (result !== null) {
               connection.release();
               res.status(409).json({
                 status: 409
               });
             } else {
+
         connection.query(
             `INSERT INTO degree (name, department_id) VALUES ('${name}', ${department_id})`,
-        err => {
-          connection.release();
+        err, resultDegree => {
+
           if (err) {
-            res.json({ status: 100, message: "Query failed in DB" });
+            res.status(100).json({ status: 100, message: "Query failed in DB" });
           } else {
-            res.status(201).json({
-              self: `http://localhost:8090/api/degrees/${result.degree_id}`,
-              name: name,
-              faculty: {
-                self: `http://localhost:8090/api/faculties/${result.department_id}`,
-                name: `${result.name}`
+
+            connection.query(
+              `SELECT * FROM department WHERE department_id = ${department_id} `,
+              err, resultDepartment => {
+                  connection.release();
+                  if (err) {
+                    res.status(100).json({ status: 100, message: "Query failed in DB" });
+                  } else {
+                  res.status(201).json({
+                    self: `http://localhost:8090/api/degrees/${resultDegree.degree_id}`,
+                    name: name,
+                    department: {
+                      self: `http://localhost:8090/api/departments/${resultDegree.department_id}`,
+                      name: `${resultDepartment.name}`
+                    }
+                  });
+                }
               }
-            });
+
+            );
           }
         }
       );
@@ -107,7 +119,6 @@ router.post("/", (req, res) => {
 
   });
 });
-
 
 
 
