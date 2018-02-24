@@ -6,11 +6,11 @@ Author : Shafraz Rahim
 
 ini_set('error_log', 'sms-app-error-jedi.log');
 
-include 'lib/sms/SMSSender.php';
-include 'lib/sms/SMSReceiver.php';
+include 'lib/SMSSender.php';
+include 'lib/SMSReceiver.php';
 
 
-date_default_timezone_set("Asia/Colombo");
+//date_default_timezone_set("Asia/Colombo");
 
 
 /*** To be filled ****/
@@ -39,35 +39,19 @@ try{
 	$sender = new SMSSender($serverurl, $applicationId, $password);
 	
 	
-	list($key, $second) = explode(" ",$content);
 	
+	//list($keyword,$opt)=explode(" ","fegg");
 	
+	if (TRUE) {
 
- 
-
+		// Send a broadcast message to all the subcribed users
+		$response = $sender->sendMessage("This is a test app.",$address);
 	
-	 if ($second=="go") {
-       	
-		//Broadcasting A Message
-		
-	     	$boradmsg = substr($content,7);
-       
-	     	error_log("Broadcast Message ".$content);
-		
-	     	$response=$sender->broadcastMessage($boradmsg);
+	}else{
 
-
-	   }else{
-
-		//Replying to an individual Message
-		
-	     	error_log("Message received ".$content);
-	
-	     	$sender->sendMessage("May the force be with you Jedi Master ".$second,$address);
-
-	      
-             }
-
+		// Send a SMS to a particular user
+		$response=$sender->sendMessage('Incorrect message',$address);
+	}
 
 						
 
