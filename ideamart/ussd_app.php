@@ -117,7 +117,7 @@ if (($receiver->getUssdOperation()) == "mo-cont") {
 
 function loadUssdSender($sessionId, $responseMessage)
 {
-    $password = "password";
+    $password = "d0b3e8942bcd47a609d2830ae31c97d9";
     $destinationAddress = "tel:94771122336";
     if ($responseMessage == "000") {
         $ussdOperation = "mt-fin";
@@ -125,7 +125,7 @@ function loadUssdSender($sessionId, $responseMessage)
         $ussdOperation = "mt-cont";
     }
     $chargingAmount = "5";
-    $applicationId = "APP_000001";
+    $applicationId = "APP_042964";
     $encoding = "440";
     $version = "1.0";
 
