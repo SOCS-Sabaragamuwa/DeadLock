@@ -12,7 +12,7 @@ router.use(bodyParser.json());
 router.post("/", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) {
-      res.json({ code: 100, message: "Error in connection database" });
+      res.status(100).json({ message: "Error in connection database" });
     }
 
     let email = req.body.email;
@@ -31,12 +31,12 @@ router.post("/", (req, res) => {
 
       (err, result) => {
         if (err) {
-          res.json({ code: 100, message: "Connection issue" });
+          res.status(100).json({ message: "Error in mysql query" });
         } else {
           if (result.length > 0) {
             connection.release();
-            res.json({
-              code: 409,
+            res.status(409).json({
+              status: 409,
               message: `A user with email: ${email} already exists.`,
               developerMessage: `User creation failed because the email: ${
                 email
@@ -44,19 +44,21 @@ router.post("/", (req, res) => {
             });
           } else {
             connection.query(
-              `INSERT INTO user(email,password) VALUES('${req.body.email}','${
+              `INSERT INTO user(email,password) VALUES('${email}','${
                 password
               }')`,
 
               (err, result) => {
                 connection.release();
                 if (err) {
-                  res.json({ code: 400, message: "Email is not set" });
+                  res
+                    .status(400)
+                    .json({ status: 400, message: "Email is not set" });
                 } else {
-                  res.json({
-                    code: 201,
+                  res.status(201).json({
+                    status: 201,
                     self: `http://localhost:8090/api/users/${result.insertId}`,
-                    email
+                    email: email
                   });
                 }
 
