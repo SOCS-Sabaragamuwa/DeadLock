@@ -41,7 +41,8 @@ $responseMsg = array(
     				Mobile
     				Faculty & Department
     				Degree
-                    94.Back",
+                    94.Back
+                    000.Exit",
 );
 
 logFile("Previous Menu is := " . $_SESSION['menu-Opt']); //Get previous menu number
