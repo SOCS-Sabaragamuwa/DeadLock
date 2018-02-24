@@ -33,7 +33,8 @@ app.use("/api/users", UserController);
 var FacultyController = require("./faculty/FacultyController");
 app.use("/api/faculties", FacultyController);
 
-// var FacultyController = require("./outh/authenticate");
-// app.use("/api/auth", FacultyController);
+var DepartmentController = require("./department/DepartmentController");
+app.use("/api/departments", DepartmentController);
+
 
 module.exports = app;

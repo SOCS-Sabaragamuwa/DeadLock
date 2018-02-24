@@ -7,7 +7,6 @@ var bodyParser = require("body-parser");
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-// save a faculty to database
 router.get("/", function(req, res) {
   pool.getConnection((err, connection) => {
     if (err) {
@@ -21,7 +20,7 @@ router.get("/", function(req, res) {
         res.json({
           faculties: [
             {
-              
+
               self: `http://localhost:8090/api/faculties/${res.faculty_id}`,
               id: `${res.faculty_id}`,
               name: `${res.name}`
