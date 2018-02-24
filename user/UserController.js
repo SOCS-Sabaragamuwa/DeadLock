@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const pool = require("../db");
+// const passwordValidator = require("./PasswordValidator");
 var generator = require("generate-password");
 var router = express.Router();
 var bodyParser = require("body-parser");
@@ -18,13 +19,35 @@ router.post("/", (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
 
+    // check for email availability
     if (!email) {
       return res.status(400).json({ message: "Email is not set" });
     }
 
+    // check for validity of password
+    if (password) {
+      let response = false;
+      if (
+        password == password.toUpperCase() &&
+        password == password.toLowerCase() &&
+        (password.length <= 8) | (password.length >= 6)
+      ) {
+        response = true;
+      }
+      // passwordValidator(password, res);
+      if (!response) {
+        return res.status(400).json({
+          status: 400,
+          message: "Password complexity requirement not met",
+          developerMessage:
+            "User creation failed because password complexity requirement not met"
+        });
+      }
+    }
+
     if (!password) {
       password = generator.generate({
-        length: 8,
+        length: 7,
         symbols: true,
         uppercase: true,
         numbers: true
