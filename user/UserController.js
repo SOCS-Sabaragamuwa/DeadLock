@@ -18,9 +18,15 @@ router.post("/", (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
 
+    if (!email) {
+      return res.status(400).json({ message: "Email is not set" });
+    }
+
     if (!password) {
       password = generator.generate({
         length: 8,
+        symbols: true,
+        uppercase: true,
         numbers: true
       });
     }
@@ -61,8 +67,6 @@ router.post("/", (req, res) => {
                     email: email
                   });
                 }
-
-                console.log(result);
               }
             );
           }
