@@ -132,4 +132,55 @@ router.post("/", (req, res) => {
   });
 });
 
+// get a user by Id
+router.get("/:id", function(req, res) {
+  pool.getConnection((err, connection) => {
+    if (err) {
+      res.status(100).json({ message: "Error in connection database" });
+    }
+
+    //insert new email
+    connection.query(
+      `
+     SELECT u.email,u.role,u.firstName,u.lastName,u.batch,f.name,f.faculty_id,d.name,d.department_id,c.name,c.degree_id
+       FROM faculty AS f, user AS u,department AS d,degree AS c
+         WHERE u.department_id=d.department_id AND u.user_id=c.degree_id `,
+      (err, result) => {
+        connection.release();
+        if (err) {
+          res.status(400).json({ status: 400, message: "Error in the Query " });
+        } else {
+          if (!result) {
+            res.status(404).json({ status: 404, message: "User not Found " });
+          } else {
+            console.log(result);
+            res.status(201).json({
+              self: `http://localhost:8090/api/users/${result.user_id}`,
+              email: result.email,
+              role: { role },
+              first_name: result.first_name,
+              last_name: result.last_name,
+              batch: result.batch,
+              faculty: {
+                self: `http://localhost:8090/api/faculties/${result.faculty_id}`
+                //  name: result
+              },
+              department: {
+                self: `http://localhost:8090/api/departments/${
+                  result.department_id
+                }`
+                //name: { department_name }
+              },
+              degree: {
+                self: `http://localhost:8090/api/degrees/${result.degree_id}`
+                //  name: { degree_name }
+              }
+            });
+          }
+        }
+      }
+    );
+  });
+});
+
 module.exports = router;
