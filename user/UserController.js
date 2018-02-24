@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 const pool = require("../db");
-// const passwordValidator = require("./PasswordValidator");
 var generator = require("generate-password");
 var router = express.Router();
 var bodyParser = require("body-parser");
@@ -18,10 +17,12 @@ router.post("/", (req, res) => {
 
     let email = req.body.email;
     let password = req.body.password;
+    let mobile = req.body.mobile;
 
     // check for email availability
     if (!email) {
-      return res.status(400).json({ message: "Email is not set" });
+      res.status(400).json({ message: "Email is not set" });
+      return;
     }
 
     // check for validity of password
@@ -62,15 +63,48 @@ router.post("/", (req, res) => {
           res.status(100).json({ message: "Error in mysql query" });
         } else {
           if (result.length > 0) {
-            connection.release();
-            res.status(409).json({
-              status: 409,
-              message: `A user with email: ${email} already exists.`,
-              developerMessage: `User creation failed because the email: ${
-                email
-              } already exists.`
-            });
+            // check for mobile number availability
+            if (mobile) {
+              if (typeof mobile == "number" && mobile.length === 10) {
+                //update user with mobile number if mobile num is given
+                connection.query(
+                  `UPDATE user SET mobileNo = ${mobile} WHERE email = ${email}`,
+                  (err, result) => {
+                    connection.release();
+                    if (err) {
+                      res.status(400).json({
+                        status: 400,
+                        message: "Failed to update mobile number (Query Issue)"
+                      });
+                    } else {
+                      res.status(201).json({
+                        status: 201,
+                        self: `http://localhost:8090/api/users/${
+                          result.insertId
+                        }`,
+                        email: email,
+                        mobile: mobile
+                      });
+                    }
+                  }
+                );
+              } else {
+                res.status(400).json({
+                  status: 400,
+                  message: "Failed to update mobile number (Query Issue)"
+                });
+              }
+            } else {
+              res.status(409).json({
+                status: 409,
+                message: `A user with email: ${email} already exists.`,
+                developerMessage: `User creation failed because the email: ${
+                  email
+                } already exists.`
+              });
+            }
           } else {
+            //insert new email
             connection.query(
               `INSERT INTO user(email,password) VALUES('${email}','${
                 password
