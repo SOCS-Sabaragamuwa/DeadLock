@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const pool = require("../db");
-
+var generator = require("generate-password");
 var router = express.Router();
 var bodyParser = require("body-parser");
 
@@ -19,9 +19,20 @@ router.post("/", (req, res) => {
     if (err) {
       res.json({ code: 100, status: "Error in connection database" });
     }
-    console.log(req.body.email);
+
+    let password = req.body.email;
+
+    if (req.body.password) {
+      password = generator.generate({
+        length: 8,
+        numbers: true
+      });
+    }
+
     connection.query(
-      `INSERT INTO user(email,password) VALUES('${req.body.email}','1234')`,
+      `INSERT INTO user(email,password) VALUES('${req.body.email}','${
+        password
+      }')`,
       err => {
         connection.release();
         if (err) {
