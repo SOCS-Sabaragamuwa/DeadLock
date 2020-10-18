@@ -37,4 +37,8 @@ var DepartmentController = require("./department/DepartmentController");
 app.use("/api/departments", DepartmentController);
 
 
+var DegreeController = require("./degree/DegreeController");
+app.use("/api/degrees", DegreeController);
+
+
 module.exports = app;
