@@ -1,3 +1,7 @@
+# Alumni Platform
+
+This project is about creating and maintaing an alumni platform which was created by SOCS Sabaragamuwa University
+
 # Team Deadlock
 
 Let Me hack API powered by Docker
@@ -44,4 +48,12 @@ Add additional notes about how to deploy this on a live system
 
 ```
 yarn start
+```
+# Technical Stack
+
+```
+PHP
+node.js
+Yarn
+docker
 ```
